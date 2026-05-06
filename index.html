@@ -2,11 +2,11 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UZBET ROYAL - Elite Club</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UZBET ROYAL</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             background: #050505;
             font-family: 'Segoe UI', sans-serif;
@@ -14,73 +14,106 @@
             overflow-x: hidden;
         }
 
-        /* HEADER & FORMS STYLES */
-        header { padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; background: #000; border-bottom: 2px solid #ffd700; position: relative; z-index: 10; }
-        .logo { font-size: 26px; font-weight: 900; color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-        .nav-btn { background: #ffd700; color: #000; padding: 8px 20px; border-radius: 4px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        
-        main { height: calc(100vh - 70px); display: flex; justify-content: center; align-items: center; }
-        .glass-card { background: #0f0f0f; padding: 40px; border-radius: 15px; width: 95%; max-width: 400px; text-align: center; border: 1px solid #333; }
-        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #1a1a1a; color: #fff; outline: none; }
-        .action-btn { width: 100%; padding: 15px; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: 800; text-transform: uppercase; }
+        /* HEADER */
+        header { 
+            padding: 10px 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: #000; 
+            border-bottom: 2px solid #ffd700;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-size: 20px; font-weight: 900; color: #ffd700; }
+        .nav-btn { background: #ffd700; color: #000; padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-weight: bold; font-size: 12px; }
 
-        /* LOBBY CARD ANIMATIONS */
+        /* MAIN CONTAINER */
+        main { min-height: 80vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .glass-card { background: #0f0f0f; padding: 30px 20px; border-radius: 15px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #333; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #1a1a1a; color: #fff; outline: none; font-size: 16px; }
+        .action-btn { width: 100%; padding: 14px; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: 800; text-transform: uppercase; }
+
+        /* LOBBY STYLES - MOBILE OPTIMIZED */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            padding: 10px;
+        }
+
         .game-card {
             position: relative;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid #222;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 160px;
             background-size: cover;
             background-position: center;
         }
-        .game-card:hover {
-            transform: translateY(-8px);
-            border-color: #ffd700;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+
+        /* MAFIA BANNER MOBILE */
+        .mafia-banner {
+            grid-column: 1 / -1;
+            height: 180px !important;
+            background-image: url('https://i.ibb.co/Xz9tG1p/uzbet-mafia.jpg');
         }
-        .play-overlay {
+
+        .card-label {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: 0.3s;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            padding: 8px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 900;
+            color: #ffd700;
         }
-        .game-card:hover .play-overlay { opacity: 1; }
-        .start-btn {
+
+        .start-btn-mobile {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: #ffd700;
             color: #000;
-            padding: 12px 30px;
-            border-radius: 50px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 900;
-            letter-spacing: 1px;
-            transform: scale(0.7);
-            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
-        .game-card:hover .start-btn { transform: scale(1); }
 
-        #walletMenu div:hover { background: #222; color: #ffd700; }
+        /* WALLET MOBILE */
+        .wallet-bar {
+            background: #111;
+            border: 1px solid #ffd700;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
 
     <header id="siteHeader">
         <div class="logo">UZBET ROYAL</div>
-        <div>
-            <button class="nav-btn" onclick="showForm('login')">Kirish</button>
-            <button class="nav-btn" onclick="showForm('reg')" style="margin-left: 10px;">Ro'yxatdan o'tish</button>
+        <div style="display: flex; gap: 5px;">
+            <button class="nav-btn" onclick="showForm('login')">KIRISH</button>
+            <button class="nav-btn" onclick="showForm('reg')">REG</button>
         </div>
     </header>
 
     <main id="mainContainer">
         <div class="glass-card">
-            <h2 id="title" style="color:#ffd700; margin-bottom: 20px;">ROYAL CLUB</h2>
+            <h2 id="title" style="color:#ffd700; margin-bottom: 15px; font-size: 20px;">ROYAL CLUB</h2>
             <div id="content">
-                <p style="color: #888;">G'alabalar maskaniga xush kelibsiz.</p>
+                <p style="color: #888; font-size: 14px;">G'alabalar maskaniga xush kelibsiz.</p>
             </div>
         </div>
     </main>
@@ -89,42 +122,31 @@
         emailjs.init("Qj4dDgU6UZu9c6Vvx");
         let db = JSON.parse(localStorage.getItem('users_db')) || [];
         let tempUser = {};
-        let generatedCode = "";
 
         function showForm(type) {
             const content = document.getElementById('content');
-            const title = document.getElementById('title');
             if(type === 'reg') {
-                title.innerText = "REGISTRATSIYA";
-                content.innerHTML = `<input type="email" id="remail" placeholder="Email"><button class="action-btn" onclick="showRegStep2()">Keyingisi</button>`;
+                content.innerHTML = `<input type="email" id="remail" placeholder="Email"><button class="action-btn" onclick="showRegStep2()">KEYINGISI</button>`;
             } else {
-                title.innerText = "LOGIN";
-                content.innerHTML = `<input type="email" id="lemail" placeholder="Email"><button class="action-btn" onclick="toLoginPass()">Davom etish</button>`;
+                content.innerHTML = `<input type="email" id="lemail" placeholder="Email"><button class="action-btn" onclick="toLoginPass()">DAVOM ETISH</button>`;
             }
         }
 
         function showRegStep2() {
-            let email = document.getElementById('remail').value;
-            if(!email.includes('@')) { alert("Email xato!"); return; }
-            tempUser.email = email;
-            document.getElementById('content').innerHTML = `<input type="text" id="uname" placeholder="Nikneym"><input type="password" id="rpass" placeholder="Parol"><button class="action-btn" onclick="toCode()">KOD OLISH</button>`;
+            tempUser.email = document.getElementById('remail').value;
+            document.getElementById('content').innerHTML = `
+                <input type="text" id="uname" placeholder="Nikneym">
+                <input type="password" id="rpass" placeholder="Parol">
+                <button class="action-btn" onclick="saveReg()">SAQLASH</button>`;
         }
 
-        function toCode() {
+        function saveReg() {
             tempUser.username = document.getElementById('uname').value;
             tempUser.password = document.getElementById('rpass').value;
-            generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
-            emailjs.send("service_ry3vn8c", "template_62fc8xl", { email: tempUser.email, my_code: generatedCode })
-            .then(() => {
-                document.getElementById('content').innerHTML = `<input type="text" id="codeInput" placeholder="Kod"><button class="action-btn" onclick="verifyReg()">TASDIQLASH</button>`;
-            });
-        }
-
-        function verifyReg() {
-            if(document.getElementById('codeInput').value === generatedCode) {
-                db.push(tempUser); localStorage.setItem('users_db', JSON.stringify(db));
-                showForm('login');
-            }
+            db.push({...tempUser});
+            localStorage.setItem('users_db', JSON.stringify(db));
+            alert("Ro'yxatdan o'tdingiz!");
+            showForm('login');
         }
 
         function toLoginPass() {
@@ -133,107 +155,64 @@
             if(user) {
                 tempUser = user;
                 document.getElementById('content').innerHTML = `<input type="password" id="lpass" placeholder="Parol"><button class="action-btn" onclick="checkLogin()">KIRISH</button>`;
-            }
+            } else { alert("Email topilmadi"); }
         }
 
         function checkLogin() {
             let pass = document.getElementById('lpass').value;
             if(pass === tempUser.password) {
-                document.getElementById('siteHeader').style.display = 'none';
-                document.body.style.overflowY = "auto";
-                document.body.innerHTML = `
-                <div style="background: #050505; min-height: 100vh; padding: 20px;">
-                    
-                    <!-- TOP NAVIGATION -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px;">
-                        <h1 style="color: #ffd700; font-size: 22px; font-weight: 900;">UZBET ROYAL</h1>
-                        <div style="display: flex; gap: 15px; align-items: center;">
-                            <div style="position: relative;">
-                                <div onclick="toggleWallet()" style="background: #111; border: 1px solid #ffd700; padding: 10px 18px; border-radius: 8px; display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                    <img src="https://cdn-icons-png.flaticon.com/512/482/482529.png" style="width: 18px; filter: invert(1);">
-                                    <span id="balText" style="color: #00ff88; font-weight: bold;">0.00 SO'M</span>
-                                    <span style="font-size: 10px;">▼</span>
-                                </div>
-                                <div id="walletMenu" style="display: none; position: absolute; top: 48px; right: 0; background: #111; border: 1px solid #ffd700; border-radius: 6px; width: 160px; z-index: 100; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                                    <div onclick="setBal('real')" style="padding: 12px; border-bottom: 1px solid #222; cursor: pointer;">REAL: 0.00</div>
-                                    <div onclick="setBal('demo')" style="padding: 12px; cursor: pointer; color: #00ff88;">DEMO: 10,000</div>
-                                </div>
-                            </div>
-                            <div style="width: 42px; height: 42px; background: #222; border: 1px solid #ffd700; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                                <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" style="width: 22px; filter: invert(1);">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="max-width: 1000px; margin: 0 auto;">
-                        
-                        <!-- 1. UZBET MAFIA (LARGE BANNER) -->
-                        <div class="game-card" style="width: 100%; height: 300px; margin-bottom: 25px; background-image: url('https://i.ibb.co/Xz9tG1p/uzbet-mafia.jpg'), url('https://img.freepik.com/free-photo/mysterious-mafia-man-suit-classic-style_23-2149154432.jpg');">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.9) 30%, transparent);"></div>
-                            <div style="position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; padding-left: 50px;">
-                                <h2 style="font-size: 45px; font-weight: 900; color: #ffd700; text-transform: uppercase; margin: 0;">UZBET MAFIA</h2>
-                                <p style="color: #fff; letter-spacing: 4px; font-weight: 300;">ELITA O'YINCHILAR KLUBI</p>
-                            </div>
-                            <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
-                        </div>
-
-                        <!-- 4 GAMES GRID -->
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-                            
-                            <!-- 2. KARTA -->
-                            <div class="game-card" style="height: 200px; background-image: url('https://images.unsplash.com/photo-1596838132731-dd93c8522756?q=80&w=1000');">
-                                <div style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px; text-align: left;">
-                                    <span style="color: #ffd700; font-weight: 900; font-size: 18px;">KARTA O'YINLARI</span>
-                                </div>
-                                <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
-                            </div>
-
-                            <!-- 3. FUTBOL -->
-                            <div class="game-card" style="height: 200px; background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1000');">
-                                <div style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px; text-align: left;">
-                                    <span style="color: #ffd700; font-weight: 900; font-size: 18px;">FUTBOL BETTING</span>
-                                </div>
-                                <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
-                            </div>
-
-                            <!-- 4. CRASH -->
-                            <div class="game-card" style="height: 200px; background-image: url('https://wallpapers.com/images/hd/aviator-plane-background-1920-x-1080-60m3v1h1b9r1x1u1.jpg');">
-                                <div style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px; text-align: left;">
-                                    <span style="color: #ffd700; font-weight: 900; font-size: 18px;">CRASH (AVIATOR)</span>
-                                </div>
-                                <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
-                            </div>
-
-                            <!-- 5. SLOTS -->
-                            <div class="game-card" style="height: 200px; background-image: url('https://img.freepik.com/free-photo/casino-slot-machine-lucky-seven_102583-3665.jpg');">
-                                <div style="position: absolute; bottom: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px; text-align: left;">
-                                    <span style="color: #ffd700; font-weight: 900; font-size: 18px;">GOLDEN SLOTS</span>
-                                </div>
-                                <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>`;
+                loadLobby();
             } else { alert("Parol xato!"); }
         }
 
-        function toggleWallet() {
-            const m = document.getElementById('walletMenu');
-            m.style.display = m.style.display === 'none' ? 'block' : 'none';
-        }
+        function loadLobby() {
+            document.getElementById('siteHeader').style.display = 'none';
+            document.body.innerHTML = `
+                <div style="padding: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <span style="color: #ffd700; font-weight: 900;">UZBET ROYAL</span>
+                        <div class="wallet-bar">
+                            <span style="color: #00ff88; font-weight: bold;">0.00 SO'M</span>
+                        </div>
+                    </div>
 
-        function setBal(type) {
-            const txt = document.getElementById('balText');
-            if(type === 'real') {
-                txt.innerText = "0.00 SO'M";
-                txt.style.color = "#ff4d4d";
-            } else {
-                txt.innerText = "10,000 SO'M";
-                txt.style.color = "#00ff88";
-            }
-            toggleWallet();
+                    <div class="game-grid">
+                        <!-- MAFIA BANNER -->
+                        <div class="game-card mafia-banner">
+                            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4);"></div>
+                            <div style="position: relative; padding: 20px;">
+                                <h3 style="color: #ffd700; font-size: 24px;">UZBET MAFIA</h3>
+                            </div>
+                            <div class="start-btn-mobile">BOSHLASH</div>
+                        </div>
+
+                        <!-- KARTA -->
+                        <div class="game-card" style="background-image: url('https://images.unsplash.com/photo-1596838132731-dd93c8522756?q=80&w=500');">
+                            <div class="card-label">KARTA O'YINLARI</div>
+                            <div class="start-btn-mobile">BOSHLASH</div>
+                        </div>
+
+                        <!-- FUTBOL -->
+                        <div class="game-card" style="background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=500');">
+                            <div class="card-label">FUTBOL BET</div>
+                            <div class="start-btn-mobile">BOSHLASH</div>
+                        </div>
+
+                        <!-- AVIATOR -->
+                        <div class="game-card" style="background-image: url('https://wallpapers.com/images/hd/aviator-plane-background-1920-x-1080-60m3v1h1b9r1x1u1.jpg');">
+                            <div class="card-label">AVIATOR</div>
+                            <div class="start-btn-mobile">BOSHLASH</div>
+                        </div>
+
+                        <!-- SLOTS -->
+                        <div class="game-card" style="background-image: url('https://img.freepik.com/free-photo/casino-slot-machine-lucky-seven_102583-3665.jpg');">
+                            <div class="card-label">SLOTS</div>
+                            <div class="start-btn-mobile">BOSHLASH</div>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
     </script>
 </body>
-</html>
+    </html>
