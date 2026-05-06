@@ -2,139 +2,106 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sokin Milliy Taomlari - Login</title>
+    <title>UZBET - Games & Trade</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            color: white;
         }
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 400px;
+        .login-card {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 350px;
             text-align: center;
         }
         input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 1px solid #334155;
+            background: #0f172a;
             color: white;
             box-sizing: border-box;
         }
         button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
+            background: #3b82f6;
+            color: white;
             border: none;
-            border-radius: 8px;
-            background: #4ecca3;
-            color: #1a1a2e;
-            font-weight: bold;
+            border-radius: 6px;
             cursor: pointer;
-            transition: 0.3s;
+            font-weight: bold;
         }
-        button:hover { background: #45b791; }
+        button:hover { background: #2563eb; }
         .hidden { display: none; }
-        #message { margin-top: 15px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Sokin Milliy Taomlari</h2>
+<div class="login-card">
+    <h2 id="title">UZBET Tizimi</h2>
     
-    <!-- Ro'yxatdan o'tish qismi -->
     <div id="step1">
-        <input type="text" id="userName" placeholder="Ismingiz">
-        <input type="email" id="userEmail" placeholder="Emailingiz">
-        <button onclick="sendCode()">Kod yuborish</button>
+        <input type="text" id="userName" placeholder="Foydalanuvchi nomi">
+        <input type="email" id="userEmail" placeholder="Email manzilingiz">
+        <button onclick="sendCode()">Kirish</button>
     </div>
 
-    <!-- Kodni tasdiqlash qismi -->
     <div id="step2" class="hidden">
-        <p>Emailingizga kod yubordik!</p>
-        <input type="text" id="verifyCode" placeholder="5 xonali kod">
+        <p>Emailingizga yuborilgan 5 xonali kodni kiriting:</p>
+        <input type="text" id="verifyCode" placeholder="00000">
         <button onclick="checkCode()">Tasdiqlash</button>
     </div>
 
-    <div id="message"></div>
+    <p id="msg" style="font-size: 12px; margin-top: 10px;"></p>
 </div>
 
 <script>
-    // EmailJS ma'lumotlari - Sening ID'laring
+    // Sening sozlangan ID-laring
     const SERVICE_ID = "service_ry3vn8c";
     const TEMPLATE_ID = "vgdwxuk";
     const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
 
     emailjs.init(PUBLIC_KEY);
-
     let generatedCode = "";
 
     function sendCode() {
-        const name = document.getElementById('userName').value;
         const email = document.getElementById('userEmail').value;
-        const msg = document.getElementById('message');
+        if(!email) return alert("Emailni yozing!");
 
-        if (!name || !email) {
-            msg.innerText = "Iltimos, hamma joyni to'ldiring!";
-            return;
-        }
-
-        // 5 xonali tasodifiy kod yaratish
         generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
+        document.getElementById('msg').innerText = "Kod yuborilmoqda...";
 
-        msg.innerText = "Yuborilmoqda...";
-
-        const templateParams = {
-            to_name: name,
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, {
             to_email: email,
-            my_code: generatedCode // EmailJS shablonidagi {{my_code}} ga boradi
-        };
-
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
-            .then(() => {
-                document.getElementById('step1').classList.add('hidden');
-                document.getElementById('step2').classList.remove('hidden');
-                msg.innerText = "";
-            })
-            .catch((err) => {
-                msg.innerText = "Xato: " + JSON.stringify(err);
-            });
+            my_code: generatedCode
+        }).then(() => {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            document.getElementById('msg').innerText = "";
+        });
     }
 
     function checkCode() {
-        const userCode = document.getElementById('verifyCode').value;
-        const msg = document.getElementById('message');
-
-        if (userCode === generatedCode) {
-            msg.style.color = "#4ecca3";
-            msg.innerText = "Muvaffaqiyatli kirdingiz! Saytga yo'naltirilmoqda...";
-            
-            // Kod tasdiqlangandan keyin o'yin ochiladi
-            setTimeout(() => {
-                alert("Hush kelibsiz! Endi o'yin o'ynashingiz mumkin.");
-                // Bu yerga keyingi safar o'yin kodini qo'shamiz
-            }, 1500);
+        const code = document.getElementById('verifyCode').value;
+        if(code === generatedCode) {
+            document.querySelector('.login-card').innerHTML = "<h1>Xush kelibsiz!</h1><p>Endi o'yinlarni boshlaymiz.</p>";
+            // Keyingi bosqichda shu yerga o'yin kodini ulaymiz
         } else {
-            msg.style.color = "#ff4d4d";
-            msg.innerText = "Kod noto'g'ri!";
+            alert("Kod noto'g'ri!");
         }
     }
 </script>
-
 </body>
 </html>
