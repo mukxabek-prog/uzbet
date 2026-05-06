@@ -3,41 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UZBET - Professional</title>
+    <title>UZBET - Casino Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        /* Avvalgi stillar saqlanib qolgan */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             height: 100vh;
-            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 50%, #00d2ff 100%);
-            font-family: sans-serif;
-            display: flex; flex-direction: column; color: white;
+            /* Professional Casino mavzusi: To'q gradient va yaltiroq effektlar */
+            background: radial-gradient(circle at center, #1a0533 0%, #0a0118 100%);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            overflow: hidden;
         }
-        header { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; }
-        .flag { width: 30px; }
+
+        /* Orqa fondagi yaltiroq nuqtalar (Casino atmosferasi uchun) */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffd700; /* Oltin rang */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .flag { width: 35px; border-radius: 4px; }
+
         .nav-btn {
-            background: white; color: #4A00E0; padding: 8px 15px;
-            border-radius: 8px; border: none; cursor: pointer;
-            font-weight: bold; margin-left: 10px;
+            background: linear-gradient(180deg, #ffd700, #b8860b);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
         }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
         main { flex: 1; display: flex; justify-content: center; align-items: center; }
+
         .glass-card {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px);
-            padding: 40px; border-radius: 25px; width: 90%;
-            max-width: 400px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; color: #333; outline: none; }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .action-btn {
-            width: 100%; padding: 12px; background: #00d2ff; color: white;
-            border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #ffd700, #daa520);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            text-transform: uppercase;
+            margin-top: 10px;
         }
-        /* Yangi status stillari */
-        .status-msg { font-size: 12px; text-align: left; margin-top: -5px; margin-bottom: 5px; font-weight: bold; }
-        .red { color: #ff4d4d; }
+
+        .status-msg { font-size: 13px; text-align: left; margin-bottom: 10px; }
+        .red { color: #ff4444; }
         .green { color: #00ff88; }
-        .back-link { display: block; margin-bottom: 15px; color: #ddd; cursor: pointer; text-align: left; font-size: 14px; }
+        .back-link { display: block; margin-bottom: 20px; color: #aaa; cursor: pointer; text-align: left; }
+        
+        h2 { margin-bottom: 10px; letter-spacing: 1px; color: #ffd700; }
     </style>
 </head>
 <body>
@@ -52,8 +135,10 @@
 
     <main>
         <div class="glass-card">
-            <h2 id="title">Xush kelibsiz</h2>
-            <div id="content"><p style="margin-top: 20px;">Iltimos, yuqoridagi tugmalardan birini tanlang.</p></div>
+            <h2 id="title">CASINO LOBBY</h2>
+            <div id="content">
+                <p>O'yinni boshlash uchun hisobingizga kiring yoki ro'yxatdan o'ting.</p>
+            </div>
         </div>
     </main>
 
@@ -63,26 +148,22 @@
         const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
         emailjs.init(PUBLIC_KEY);
 
-        // Ma'lumotlar bazasini simulyatsiya qilish (Haqiqiy loyihada server bo'ladi)
-        // Hozircha barcha foydalanuvchilarni bitta massivda saqlab turamiz
         let db = JSON.parse(localStorage.getItem('users_db')) || [];
-        let currentUser = null;
+        let tempUser = {};
+        let generatedCode = "";
 
         function showForm(type) {
             const content = document.getElementById('content');
             const title = document.getElementById('title');
 
             if(type === 'reg') {
-                title.innerText = "Ro'yxatdan o'tish";
+                title.innerText = "REGISTRATSIYA";
                 content.innerHTML = `
-                    <input type="text" id="uname" placeholder="Ismingiz (Username)" oninput="checkUsername(this.value)">
-                    <div id="uStatus" class="status-msg"></div>
-                    <input type="email" id="remail" placeholder="Emailingiz">
-                    <input type="password" id="rpass" placeholder="Parol (min 8 ta)">
-                    <button class="action-btn" id="sendBtn" onclick="toCode()">Kod yuborish</button>
+                    <input type="email" id="remail" placeholder="Emailingizni kiriting">
+                    <button class="action-btn" onclick="showRegStep2()">Davom etish</button>
                 `;
             } else {
-                title.innerText = "Kirish";
+                title.innerText = "LOGIN";
                 content.innerHTML = `
                     <input type="email" id="lemail" placeholder="Emailingiz">
                     <button class="action-btn" onclick="toLoginPass()">Keyingisi</button>
@@ -90,13 +171,25 @@
             }
         }
 
-        // Username bandligini tekshirish
+        // Email yozilgandan keyin Ism va Parol so'rash
+        function showRegStep2() {
+            let email = document.getElementById('remail').value;
+            if(!email.includes('@')) { alert("Email noto'g'ri!"); return; }
+            
+            tempUser.email = email;
+            
+            document.getElementById('content').innerHTML = `
+                <span class="back-link" onclick="showForm('reg')">⬅ Orqaga</span>
+                <input type="text" id="uname" placeholder="Ismingiz (Username)" oninput="checkUsername(this.value)">
+                <div id="uStatus" class="status-msg"></div>
+                <input type="password" id="rpass" placeholder="Parol (min 8 ta)">
+                <button class="action-btn" id="sendBtn" onclick="toCode()">Kod yuborish</button>
+            `;
+        }
+
         function checkUsername(name) {
             const status = document.getElementById('uStatus');
-            if(name.length < 3) {
-                status.innerText = "";
-                return;
-            }
+            if(name.length < 3) { status.innerText = ""; return; }
 
             const isTaken = db.some(user => user.username.toLowerCase() === name.toLowerCase());
             
@@ -105,22 +198,20 @@
                 status.className = "status-msg red";
                 document.getElementById('sendBtn').disabled = true;
             } else {
-                status.innerText = "✔ Bu nom bo'sh (yashil pichka)";
+                status.innerText = "✔ Ism bo'sh";
                 status.className = "status-msg green";
                 document.getElementById('sendBtn').disabled = false;
             }
         }
 
-        let tempUser = {};
-        let generatedCode = "";
-
         function toCode() {
             let name = document.getElementById('uname').value;
-            let email = document.getElementById('remail').value;
             let pass = document.getElementById('rpass').value;
 
-            if(name.length >= 3 && email.includes('@') && pass.length >= 8) {
-                tempUser = { username: name, email: email, password: pass };
+            if(name.length >= 3 && pass.length >= 8) {
+                tempUser.username = name;
+                tempUser.password = pass;
+                
                 generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
                 
                 const btn = document.getElementById('sendBtn');
@@ -132,12 +223,12 @@
                     my_code: generatedCode
                 }).then(() => {
                     document.getElementById('content').innerHTML = `
-                        <p>Emailga 5 xonali kod yuborildi.</p>
-                        <input type="text" id="codeInput" placeholder="00000">
+                        <p>Emailga tasdiqlash kodi yuborildi.</p>
+                        <input type="text" id="codeInput" placeholder="Kodni kiriting">
                         <button class="action-btn" onclick="verifyReg()">Tasdiqlash</button>
                     `;
                 }).catch(() => { alert("Xatolik!"); btn.disabled = false; });
-            } else { alert("Ma'lumotlar to'liq emas yoki xato!"); }
+            } else { alert("Ism yoki parol talabga javob bermaydi!"); }
         }
 
         function verifyReg() {
@@ -145,7 +236,7 @@
             if(enteredCode === generatedCode) {
                 db.push(tempUser);
                 localStorage.setItem('users_db', JSON.stringify(db));
-                alert("Tabriklaymiz, ro'yxatdan o'tdingiz!");
+                alert("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
                 showForm('login');
             } else { alert("Kod xato!"); }
         }
@@ -153,11 +244,10 @@
         function toLoginPass() {
             let email = document.getElementById('lemail').value;
             let user = db.find(u => u.email === email);
-
             if(user) {
-                currentUser = user;
+                tempUser = user;
                 document.getElementById('content').innerHTML = `
-                    <input type="password" id="lpass" placeholder="Parolingizni kiriting">
+                    <input type="password" id="lpass" placeholder="Parolingiz">
                     <button class="action-btn" onclick="checkLogin()">Kirish</button>
                 `;
             } else { alert("Bu email ro'yxatdan o'tmagan!"); }
@@ -165,13 +255,13 @@
 
         function checkLogin() {
             let pass = document.getElementById('lpass').value;
-            if(pass === currentUser.password) {
-                // KIRGANDAN KEYIN OCHILADIGAN YANGI OYNA
+            if(pass === tempUser.password) {
+                // Yangi oyna qismi
                 document.body.innerHTML = `
-                    <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column;">
-                        <h1>Xush kelibsiz, ${currentUser.username}!</h1>
-                        <p>Siz yangi oynaga muvaffaqiyatli kirdingiz.</p>
-                        <button onclick="location.reload()" style="margin-top:20px; padding:10px;">Chiqish</button>
+                    <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; background: radial-gradient(circle, #2a0845, #000);">
+                        <h1 style="color:#ffd700">XUSH KELIBSIZ, ${tempUser.username.toUpperCase()}!</h1>
+                        <p style="color:#fff; margin-top:10px;">Casino xonasiga muvaffaqiyatli kirdingiz.</p>
+                        <button onclick="location.reload()" style="margin-top:30px; padding:10px 30px; background:#ffd700; border:none; cursor:pointer; font-weight:bold; border-radius:5px;">CHIQISH</button>
                     </div>
                 `;
             } else { alert("Parol xato!"); }
