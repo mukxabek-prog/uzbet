@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UZBET - Professional</title>
+    <style>
+        /* CSS SHU YERNING O'ZIDA */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 50%, #00d2ff 100%);
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+        header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; }
+        .flag { width: 30px; }
+        .nav-btn {
+            background: white;
+            color: #4A00E0;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        main { flex: 1; display: flex; justify-content: center; align-items: center; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+        }
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            background: #00d2ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .back-link {
+            display: block;
+            margin-bottom: 15px;
+            color: #ddd;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="https://flagcdn.com/w40/uz.png" class="flag"> UZBET
+        </div>
+        <div>
+            <button class="nav-btn" onclick="showForm('login')">Kirish</button>
+            <button class="nav-btn" onclick="showForm('reg')">Ro'yxatdan o'tish</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="glass-card">
+            <h2 id="title">Xush kelibsiz</h2>
+            <div id="content">
+                <p style="margin-top: 20px;">Iltimos, yuqoridagi tugmalardan birini tanlang.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // JAVASCRIPT SHU YERNING O'ZIDA
+        let userEmail = "";
+        let userPass = "";
+
+        function showForm(type) {
+            const content = document.getElementById('content');
+            const title = document.getElementById('title');
+
+            if(type === 'reg') {
+                title.innerText = "Ro'yxatdan o'tish";
+                content.innerHTML = `
+                    <input type="email" id="remail" placeholder="Emailingiz">
+                    <input type="password" id="rpass" placeholder="Parol (min 12 ta)">
+                    <button class="action-btn" onclick="toCode()">Keyingisi</button>
+                `;
+            } else {
+                title.innerText = "Kirish";
+                content.innerHTML = `
+                    <input type="email" id="lemail" placeholder="Emailingiz">
+                    <button class="action-btn" onclick="toLoginPass()">Keyingisi</button>
+                `;
+            }
+        }
+
+        function toCode() {
+            userEmail = document.getElementById('remail').value;
+            userPass = document.getElementById('rpass').value;
+            if(userEmail.includes('@') && userPass.length >= 8) {
+                document.getElementById('content').innerHTML = `
+                    <span class="back-link" onclick="showForm('reg')">⬅ Orqaga (Tahrirlash)</span>
+                    <p>Emailga 4 xonali kod yuborildi</p>
+                    <input type="text" id="code" placeholder="0000">
+                    <button class="action-btn" onclick="alert('Ro\\'yxatdan o\\'tdingiz!')">Tasdiqlash</button>
+                `;
+            } else { alert("Ma'lumotlar xato!"); }
+        }
+
+        function toLoginPass() {
+            let email = document.getElementById('lemail').value;
+            if(email === userEmail && email !== "") {
+                document.getElementById('content').innerHTML = `
+                    <span class="back-link" onclick="showForm('login')">⬅ Orqaga</span>
+                    <input type="password" id="lpass" placeholder="Parolingizni kiriting">
+                    <button class="action-btn" onclick="alert('Kirdingiz!')">Kirish</button>
+                `;
+            } else { alert("Email topilmadi!"); }
+        }
+    </script>
+</body>
+</html>
