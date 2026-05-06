@@ -2,155 +2,249 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UZBET ROYAL - Professional Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UZBET - Elite Casino</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        /* ASOSIY STIL */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background: #05010a;
-            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            background: radial-gradient(circle at center, #1a0533 0%, #05010a 100%);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
             color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* FON EFFEKTI */
-        .bg-elements { position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .element { position: absolute; font-size: 25px; opacity: 0.2; animation: float 12s infinite linear; }
+        /* Animatsiyali fon elementlari (Tangalar, Kartalar, To'plar) */
+        .bg-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .element {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.6;
+            animation: float 15s infinite linear;
+        }
+
         @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
-        /* HEADER */
-        header { 
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; 
-            background: #000; border-bottom: 2px solid #ffd700; position: sticky; top: 0; z-index: 100;
+        header {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            border-bottom: 2px solid #ffd700;
+            z-index: 10;
         }
-        .logo { font-size: 22px; font-weight: 900; color: #ffd700; letter-spacing: 1px; }
-        .nav-btn { background: #ffd700; color: #000; padding: 8px 15px; border-radius: 4px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; }
 
-        /* FORMALAR */
-        main { display: flex; justify-content: center; align-items: center; padding: 40px 20px; position: relative; z-index: 10; min-height: 80vh; }
-        .glass-card { background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 15px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #333; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
-        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #fff; outline: none; font-size: 16px; }
-        input:focus { border-color: #ffd700; }
-        .action-btn { width: 100%; padding: 15px; background: #ffd700; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: 800; text-transform: uppercase; margin-top: 10px; }
-        
-        .status-msg { font-size: 13px; text-align: left; margin-top: -5px; margin-bottom: 10px; font-weight: bold; }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 30px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+
+        .flag { width: 35px; border-radius: 4px; }
+
+        .nav-btn {
+            background: linear-gradient(180deg, #ffd700, #daa520);
+            color: #000;
+            padding: 10px 25px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #ffd700; }
+
+        main { flex: 1; display: flex; justify-content: center; align-items: center; z-index: 10; }
+
+        .glass-card {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(25px);
+            padding: 45px;
+            border-radius: 30px;
+            width: 95%;
+            max-width: 440px;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 60px rgba(0,0,0,0.8);
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(255, 255, 255, 0.07);
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus { border-color: #ffd700; background: rgba(255, 255, 255, 0.12); }
+
+        .action-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #ffd700, #daa520);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+
+        .status-msg { font-size: 13px; text-align: left; margin-bottom: 10px; font-weight: bold; }
         .red { color: #ff4d4d; }
         .green { color: #00ff88; }
-
-        /* LOBBY O'YINLARI */
-        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1000px; margin: 0 auto; }
-        .game-card { 
-            position: relative; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
-            height: 180px; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;
-        }
-        .game-card:hover { border-color: #ffd700; transform: translateY(-5px); }
-        .mafia-banner { grid-column: 1 / -1; height: 220px; }
-        
-        .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; }
-        .game-card:hover .play-overlay { opacity: 1; }
-        .start-btn { background: #ffd700; color: #000; padding: 10px 20px; border-radius: 50px; font-weight: 900; font-size: 12px; }
-
-        .card-label { position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 8px; text-align: center; color: #ffd700; font-size: 13px; font-weight: bold; }
-
-        /* HAMYON */
-        .wallet-box { position: relative; cursor: pointer; }
-        .wallet-ui { background: #111; border: 1px solid #ffd700; padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
-        .wallet-menu { display: none; position: absolute; top: 45px; right: 0; background: #111; border: 1px solid #ffd700; border-radius: 8px; width: 150px; z-index: 200; overflow: hidden; }
-        .wallet-menu div { padding: 12px; border-bottom: 1px solid #222; font-size: 14px; }
-        .wallet-menu div:hover { background: #222; color: #ffd700; }
+        .back-link { display: block; margin-bottom: 20px; color: #ffd700; cursor: pointer; text-align: left; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <!-- Orqa fondagi elementlar -->
     <div class="bg-elements" id="bgLayer"></div>
 
-    <header id="siteHeader">
-        <div class="logo">UZBET ROYAL</div>
-        <div id="headerAuth">
-            <button class="nav-btn" onclick="showForm('login')">KIRISH</button>
-            <button class="nav-btn" onclick="showForm('reg')" style="margin-left: 8px;">REG</button>
+    <header>
+        <div class="logo"><img src="https://flagcdn.com/w40/uz.png" class="flag"> UZBET</div>
+        <div>
+            <button class="nav-btn" onclick="showForm('login')">Kirish</button>
+            <button class="nav-btn" onclick="showForm('reg')">ro'yxatdan otish</button>
         </div>
     </header>
 
-    <main id="mainBody">
+    <main>
         <div class="glass-card">
-            <h2 id="title" style="color:#ffd700; margin-bottom: 15px;">XUSH KELIBSIZ</h2>
+            <h2 id="title" style="color:#ffd700; margin-bottom: 15px;">ROYAL CASINO</h2>
             <div id="content">
-                <p style="color: #888;">Davom etish uchun tizimga kiring.</p>
+                <p style="color: #ccc;">Professional o'yinlar olamiga xush kelibsiz!</p>
             </div>
         </div>
     </main>
 
     <script>
-        emailjs.init("Qj4dDgU6UZu9c6Vvx");
+        const SERVICE_ID = "service_ry3vn8c";
+        const TEMPLATE_ID = "template_62fc8xl"; 
+        const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
+        emailjs.init(PUBLIC_KEY);
 
-        // EFFEKT
-        const icons = ['💰', '♠️', '💎', '🃏', '🪙'];
+        // Fon elementlarini yaratish
+        const icons = ['💰', '🪙', '🃏', '♠️', '♥️', '⚽', '💎'];
         const bgLayer = document.getElementById('bgLayer');
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) {
             let el = document.createElement('div');
             el.className = 'element';
             el.innerText = icons[Math.floor(Math.random() * icons.length)];
             el.style.left = Math.random() * 100 + 'vw';
-            el.style.animationDelay = Math.random() * 10 + 's';
+            el.style.animationDelay = Math.random() * 15 + 's';
+            el.style.fontSize = (Math.random() * 20 + 20) + 'px';
             bgLayer.appendChild(el);
         }
 
         let db = JSON.parse(localStorage.getItem('users_db')) || [];
         let tempUser = {};
+        let generatedCode = "";
 
         function showForm(type) {
             const content = document.getElementById('content');
             const title = document.getElementById('title');
             if(type === 'reg') {
                 title.innerText = "REGISTRATSIYA";
-                content.innerHTML = `<input type="email" id="remail" placeholder="Email"><button class="action-btn" onclick="showRegStep2()">KEYINGISI</button>`;
+                content.innerHTML = `
+                    <input type="email" id="remail" placeholder="Email manzilingiz">
+                    <button class="action-btn" onclick="showRegStep2()">Keyingisi</button>
+                `;
             } else {
                 title.innerText = "LOGIN";
-                content.innerHTML = `<input type="email" id="lemail" placeholder="Email"><button class="action-btn" onclick="toLoginPass()">DAVOM ETISH</button>`;
+                content.innerHTML = `
+                    <input type="email" id="lemail" placeholder="Emailingiz">
+                    <button class="action-btn" onclick="toLoginPass()">Davom etish</button>
+                `;
             }
         }
 
         function showRegStep2() {
             let email = document.getElementById('remail').value;
-            if(!email.includes('@')) { alert("Email xato!"); return; }
+            if(!email.includes('@')) { alert("Emailni to'g'ri kiriting!"); return; }
             tempUser.email = email;
             document.getElementById('content').innerHTML = `
-                <input type="text" id="uname" placeholder="Nikneym" oninput="checkNik(this.value)">
-                <div id="nikStatus" class="status-msg"></div>
-                <input type="password" id="rpass" placeholder="Parol (min. 8)">
-                <button class="action-btn" id="regBtn" onclick="finishReg()">RO'YXATDAN O'TISH</button>`;
+                <span class="back-link" onclick="showForm('reg')">⬅ ORQAGA</span>
+                <input type="text" id="uname" placeholder="Nikneym (Ism)" oninput="checkUsername(this.value)">
+                <div id="uStatus" class="status-msg"></div>
+                <input type="password" id="rpass" placeholder="Parol (min 8 belgi)">
+                <button class="action-btn" id="sendBtn" onclick="toCode()">TASDIQLASH KODINI OLISH</button>
+            `;
         }
 
-        function checkNik(name) {
-            const status = document.getElementById('nikStatus');
-            const btn = document.getElementById('regBtn');
+        function checkUsername(name) {
+            const status = document.getElementById('uStatus');
             if(name.length < 3) { status.innerText = ""; return; }
             const isTaken = db.some(u => u.username.toLowerCase() === name.toLowerCase());
             if(isTaken) {
-                status.innerText = "✖ BU NIK BAND"; status.className = "status-msg red"; btn.disabled = true;
+                status.innerText = "✖ BU NOM BAND!";
+                status.className = "status-msg red";
+                document.getElementById('sendBtn').disabled = true;
             } else {
-                status.innerText = "✔ NIK BO'SH"; status.className = "status-msg green"; btn.disabled = false;
+                status.innerText = "✔ NOM BO'SH";
+                status.className = "status-msg green";
+                document.getElementById('sendBtn').disabled = false;
             }
         }
 
-        function finishReg() {
-            tempUser.username = document.getElementById('uname').value;
-            tempUser.password = document.getElementById('rpass').value;
-            if(tempUser.username.length >= 3 && tempUser.password.length >= 8) {
-                db.push({...tempUser});
+        function toCode() {
+            let name = document.getElementById('uname').value;
+            let pass = document.getElementById('rpass').value;
+            if(name.length >= 3 && pass.length >= 8) {
+                tempUser.username = name;
+                tempUser.password = pass;
+                generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
+                const btn = document.getElementById('sendBtn');
+                btn.innerText = "YUBORILMOQDA...";
+                btn.disabled = true;
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, { email: tempUser.email, my_code: generatedCode })
+                    .then(() => {
+                        document.getElementById('content').innerHTML = `
+                            <p>Kodni kiriting:</p>
+                            <input type="text" id="codeInput" placeholder="00000">
+                            <button class="action-btn" onclick="verifyReg()">TASDIQLASH</button>
+                        `;
+                    }).catch(() => { alert("Xato!"); btn.disabled = false; });
+            } else { alert("Ma'lumotlar xato!"); }
+        }
+
+        function verifyReg() {
+            const code = document.getElementById('codeInput').value;
+            if(code === generatedCode) {
+                db.push(tempUser);
                 localStorage.setItem('users_db', JSON.stringify(db));
                 alert("Muvaffaqiyatli o'tdingiz!");
                 showForm('login');
-            } else { alert("Ma'lumotlar yetarli emas!"); }
+            } else { alert("Kod xato!"); }
         }
 
         function toLoginPass() {
@@ -158,45 +252,25 @@
             let user = db.find(u => u.email === email);
             if(user) {
                 tempUser = user;
-                document.getElementById('content').innerHTML = `<input type="password" id="lpass" placeholder="Parol"><button class="action-btn" onclick="checkLogin()">KIRISH</button>`;
-            } else { alert("Email topilmadi!"); }
+                document.getElementById('content').innerHTML = `
+                    <input type="password" id="lpass" placeholder="Parolingiz">
+                    <button class="action-btn" onclick="checkLogin()">KIRISH</button>
+                `;
+            } else { alert("Topilmadi!"); }
         }
 
         function checkLogin() {
-            if(document.getElementById('lpass').value === tempUser.password) {
-                loadLobby();
+            let pass = document.getElementById('lpass').value;
+            if(pass === tempUser.password) {
+                document.body.innerHTML = `
+                    <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; background: radial-gradient(circle, #2a0845, #000);">
+                        <h1 style="color:#ffd700; text-shadow: 0 0 20px #ffd700;">SALOM, ${tempUser.username.toUpperCase()}!</h1>
+                        <p style="color:#fff; margin-top:10px;">Xush kelibsiz!</p>
+                        <button onclick="location.reload()" style="margin-top:30px; padding:12px 40px; background:#ffd700; border:none; cursor:pointer; font-weight:bold; border-radius:10px;">CHIQISH</button>
+                    </div>
+                `;
             } else { alert("Parol xato!"); }
         }
-
-        // LOBBY (KIRGANDAN KEYIN)
-        function loadLobby() {
-            document.getElementById('siteHeader').style.display = 'none';
-            document.body.innerHTML = `
-                <div style="background: #050505; min-height: 100vh; padding-bottom: 50px;">
-                    <div style="padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222;">
-                        <span class="logo">UZBET ROYAL</span>
-                        <div class="wallet-box" onclick="toggleWallet()">
-                            <div class="wallet-ui">
-                                <img src="https://cdn-icons-png.flaticon.com/512/482/482529.png" style="width: 18px; filter: invert(1);">
-                                <span id="balDisplay" style="color: #00ff88; font-weight: bold;">0.00 SO'M</span>
-                            </div>
-                            <div id="wMenu" class="wallet-menu">
-                                <div onclick="setAcc('real')">REAL: 0.00</div>
-                                <div onclick="setAcc('demo')" style="color: #00ff88;">DEMO: 10,000</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="game-grid">
-                        <div class="game-card mafia-banner" style="background-image: url('https://i.ibb.co/Xz9tG1p/uzbet-mafia.jpg');">
-                            <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.8), transparent);"></div>
-                            <div style="position: relative; padding: 30px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-                                <h2 style="color:#ffd700; font-size: 30px;">UZBET MAFIA</h2>
-                                <p style="font-size: 12px; letter-spacing: 2px;">ELITA O'YINCHILAR KLUBI</p>
-                            </div>
-                            <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
-                        </div>
-
-                        <div class="game-card" style="background-image: url('https://images.unsplash.com/photo-1596838132731-dd93c8522756?w=500');">
-                            <div class="card-label">KARTA
-        
+    </script>
+</body>
+</html>
