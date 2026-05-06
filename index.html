@@ -96,9 +96,8 @@
     </main>
 
     <script>
-        // EmailJS sozlamalari (To'g'rilangan variant)
         const SERVICE_ID = "service_ry3vn8c";
-        const TEMPLATE_ID = "template_62fc8xl"; // Yangi va to'g'ri Template ID
+        const TEMPLATE_ID = "template_62fc8xl"; 
         const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
 
         emailjs.init(PUBLIC_KEY);
@@ -128,20 +127,21 @@
         }
 
         function toCode() {
-            userEmail = document.getElementById('remail').value;
-            userPass = document.getElementById('rpass').value;
+            let emailInput = document.getElementById('remail').value;
+            let passInput = document.getElementById('rpass').value;
 
-            if(userEmail.includes('@') && userPass.length >= 8) {
-                // 5 xonali kod yaratish
+            if(emailInput.includes('@') && passInput.length >= 8) {
+                userEmail = emailInput;
+                userPass = passInput;
+                
                 generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
                 
                 const btn = document.getElementById('sendBtn');
                 btn.innerText = "Yuborilmoqda...";
                 btn.disabled = true;
 
-                // EmailJS orqali yuborish (To'g'rilangan qism)
                 emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                    email: userEmail,   // Template'dagi {{email}} ga moslandi
+                    email: userEmail,
                     my_code: generatedCode
                 }).then(() => {
                     document.getElementById('content').innerHTML = `
@@ -156,7 +156,7 @@
                     btn.disabled = false;
                 });
             } else { 
-                alert("Email noto'g'ri yoki parol juda qisqa!"); 
+                alert("Email noto'g'ri yoki parol 8 tadan kam!"); 
             }
         }
 
@@ -169,19 +169,38 @@
                     <p>Siz tizimga kirdingiz. O'yinlar tez kunda qo'shiladi.</p>
                 `;
             } else {
-                alert("Kod noto'g'ri! Iltimos, qaytadan tekshiring.");
+                alert("Kod noto'g'ri!");
             }
         }
 
         function toLoginPass() {
             let email = document.getElementById('lemail').value;
+            
+            // Ro'yxatdan o'tgan email ekanligini tekshirish
             if(email === userEmail && email !== "") {
                 document.getElementById('content').innerHTML = `
                     <span class="back-link" onclick="showForm('login')">⬅ Orqaga</span>
                     <input type="password" id="lpass" placeholder="Parolingizni kiriting">
-                    <button class="action-btn" onclick="alert('Kirdingiz!')">Kirish</button>
+                    <button class="action-btn" onclick="checkLogin()">Kirish</button>
                 `;
-            } else { alert("Email topilmadi yoki hali ro'yxatdan o'tmagansiz!"); }
+            } else { 
+                alert("Bu email ro'yxatdan o'tmagan!"); 
+            }
+        }
+
+        function checkLogin() {
+            let enteredPass = document.getElementById('lpass').value;
+            
+            // Parolni tekshirish
+            if(enteredPass === userPass) {
+                alert("Xush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.");
+                document.getElementById('content').innerHTML = `
+                    <h2 style="color: #00ffcc;">Xush kelibsiz!</h2>
+                    <p>Siz o'z profilingizga kirdingiz.</p>
+                `;
+            } else {
+                alert("Xato! Parol noto'g'ri.");
+            }
         }
     </script>
 </body>
