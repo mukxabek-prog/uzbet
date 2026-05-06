@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UZBET - Professional</title>
-    <!-- EmailJS kutubxonasi -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,62 +15,26 @@
             flex-direction: column;
             color: white;
         }
-        header {
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        header { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; }
         .flag { width: 30px; }
         .nav-btn {
-            background: white;
-            color: #4A00E0;
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            margin-left: 10px;
+            background: white; color: #4A00E0; padding: 8px 15px;
+            border-radius: 8px; border: none; cursor: pointer;
+            font-weight: bold; margin-left: 10px;
         }
         main { flex: 1; display: flex; justify-content: center; align-items: center; }
         .glass-card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-            padding: 40px;
-            border-radius: 25px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 25px; width: 90%;
+            max-width: 400px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: none;
-            color: #333;
-        }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; color: #333; }
         .action-btn {
-            width: 100%;
-            padding: 12px;
-            background: #00d2ff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
+            width: 100%; padding: 12px; background: #00d2ff; color: white;
+            border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;
         }
-        .back-link {
-            display: block;
-            margin-bottom: 15px;
-            color: #ddd;
-            cursor: pointer;
-            text-align: left;
-            font-size: 14px;
-        }
+        .back-link { display: block; margin-bottom: 15px; color: #ddd; cursor: pointer; text-align: left; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -102,8 +65,9 @@
 
         emailjs.init(PUBLIC_KEY);
 
-        let userEmail = "";
-        let userPass = "";
+        // Ma'lumotlarni brauzer xotirasidan olish
+        let userEmail = localStorage.getItem('userEmail') || "";
+        let userPass = localStorage.getItem('userPass') || "";
         let generatedCode = "";
 
         function showForm(type) {
@@ -111,6 +75,11 @@
             const title = document.getElementById('title');
 
             if(type === 'reg') {
+                // Agar allaqachon ro'yxatdan o'tgan bo'lsa
+                if(userEmail !== "") {
+                    alert("Siz allaqachon ro'yxatdan o'tgansiz! Iltimos, Kirish tugmasini bosing.");
+                    return;
+                }
                 title.innerText = "Ro'yxatdan o'tish";
                 content.innerHTML = `
                     <input type="email" id="remail" placeholder="Emailingiz">
@@ -131,8 +100,9 @@
             let passInput = document.getElementById('rpass').value;
 
             if(emailInput.includes('@') && passInput.length >= 8) {
-                userEmail = emailInput;
-                userPass = passInput;
+                // Vaqtinchalik saqlash (tasdiqlangandan keyin xotiraga yozamiz)
+                tempEmail = emailInput;
+                tempPass = passInput;
                 
                 generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
                 
@@ -141,66 +111,60 @@
                 btn.disabled = true;
 
                 emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                    email: userEmail,
+                    email: tempEmail,
                     my_code: generatedCode
                 }).then(() => {
                     document.getElementById('content').innerHTML = `
-                        <span class="back-link" onclick="showForm('reg')">⬅ Orqaga (Tahrirlash)</span>
-                        <p>Emailingizga 5 xonali tasdiqlash kodi yuborildi.</p>
+                        <span class="back-link" onclick="showForm('reg')">⬅ Orqaga</span>
+                        <p>Emailga 5 xonali kod yuborildi.</p>
                         <input type="text" id="codeInput" placeholder="00000">
                         <button class="action-btn" onclick="verifyReg()">Tasdiqlash</button>
                     `;
                 }).catch((err) => {
-                    alert("Xatolik yuz berdi: " + JSON.stringify(err));
+                    alert("Xatolik!");
                     btn.innerText = "Qayta urinish";
                     btn.disabled = false;
                 });
-            } else { 
-                alert("Email noto'g'ri yoki parol 8 tadan kam!"); 
-            }
+            } else { alert("Email xato yoki parol 8 tadan kam!"); }
         }
+
+        let tempEmail = "";
+        let tempPass = "";
 
         function verifyReg() {
             const enteredCode = document.getElementById('codeInput').value;
             if(enteredCode === generatedCode) {
+                // MA'LUMOTLARNI BRAUZER XOTIRASIGA SAQLASH
+                userEmail = tempEmail;
+                userPass = tempPass;
+                localStorage.setItem('userEmail', userEmail);
+                localStorage.setItem('userPass', userPass);
+
                 alert("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
                 document.getElementById('content').innerHTML = `
                     <h2 style="color: #00ffcc;">Tabriklaymiz!</h2>
-                    <p>Siz tizimga kirdingiz. O'yinlar tez kunda qo'shiladi.</p>
+                    <p>Endi siz tizimdan foydalanishingiz mumkin.</p>
                 `;
-            } else {
-                alert("Kod noto'g'ri!");
-            }
+            } else { alert("Kod noto'g'ri!"); }
         }
 
         function toLoginPass() {
             let email = document.getElementById('lemail').value;
-            
-            // Ro'yxatdan o'tgan email ekanligini tekshirish
             if(email === userEmail && email !== "") {
                 document.getElementById('content').innerHTML = `
                     <span class="back-link" onclick="showForm('login')">⬅ Orqaga</span>
                     <input type="password" id="lpass" placeholder="Parolingizni kiriting">
                     <button class="action-btn" onclick="checkLogin()">Kirish</button>
                 `;
-            } else { 
-                alert("Bu email ro'yxatdan o'tmagan!"); 
-            }
+            } else { alert("Bu email ro'yxatdan o'tmagan!"); }
         }
 
         function checkLogin() {
             let enteredPass = document.getElementById('lpass').value;
-            
-            // Parolni tekshirish
             if(enteredPass === userPass) {
-                alert("Xush kelibsiz! Tizimga muvaffaqiyatli kirdingiz.");
-                document.getElementById('content').innerHTML = `
-                    <h2 style="color: #00ffcc;">Xush kelibsiz!</h2>
-                    <p>Siz o'z profilingizga kirdingiz.</p>
-                `;
-            } else {
-                alert("Xato! Parol noto'g'ri.");
-            }
+                alert("Xush kelibsiz!");
+                document.getElementById('content').innerHTML = `<h2 style="color: #00ffcc;">Xush kelibsiz!</h2><p>Profilingizga kirdingiz.</p>`;
+            } else { alert("Parol noto'g'ri!"); }
         }
     </script>
 </body>
