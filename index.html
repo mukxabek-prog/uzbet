@@ -3,150 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UZBET ROYAL</title>
+    <title>UZBET ROYAL - Professional Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+        /* ASOSIY STIL */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            background: #050505;
+            background: #05010a;
             font-family: 'Segoe UI', sans-serif;
             color: #fff;
             overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* FON EFFEKTI */
+        .bg-elements { position: fixed; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .element { position: absolute; font-size: 25px; opacity: 0.2; animation: float 12s infinite linear; }
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
         /* HEADER */
         header { 
-            padding: 10px 15px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: #000; 
-            border-bottom: 2px solid #ffd700;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; 
+            background: #000; border-bottom: 2px solid #ffd700; position: sticky; top: 0; z-index: 100;
         }
-        .logo { font-size: 20px; font-weight: 900; color: #ffd700; }
-        .nav-btn { background: #ffd700; color: #000; padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-weight: bold; font-size: 12px; }
+        .logo { font-size: 22px; font-weight: 900; color: #ffd700; letter-spacing: 1px; }
+        .nav-btn { background: #ffd700; color: #000; padding: 8px 15px; border-radius: 4px; border: none; cursor: pointer; font-weight: bold; font-size: 13px; }
 
-        /* MAIN CONTAINER */
-        main { min-height: 80vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .glass-card { background: #0f0f0f; padding: 30px 20px; border-radius: 15px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #333; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #1a1a1a; color: #fff; outline: none; font-size: 16px; }
-        .action-btn { width: 100%; padding: 14px; background: #ffd700; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: 800; text-transform: uppercase; }
+        /* FORMALAR */
+        main { display: flex; justify-content: center; align-items: center; padding: 40px 20px; position: relative; z-index: 10; min-height: 80vh; }
+        .glass-card { background: rgba(15, 15, 15, 0.95); padding: 30px; border-radius: 15px; width: 100%; max-width: 400px; text-align: center; border: 1px solid #333; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 14px; margin: 10px 0; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #fff; outline: none; font-size: 16px; }
+        input:focus { border-color: #ffd700; }
+        .action-btn { width: 100%; padding: 15px; background: #ffd700; color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: 800; text-transform: uppercase; margin-top: 10px; }
+        
+        .status-msg { font-size: 13px; text-align: left; margin-top: -5px; margin-bottom: 10px; font-weight: bold; }
+        .red { color: #ff4d4d; }
+        .green { color: #00ff88; }
 
-        /* LOBBY STYLES - MOBILE OPTIMIZED */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            padding: 10px;
+        /* LOBBY O'YINLARI */
+        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; max-width: 1000px; margin: 0 auto; }
+        .game-card { 
+            position: relative; border-radius: 12px; overflow: hidden; border: 1px solid #222; 
+            height: 180px; background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;
         }
+        .game-card:hover { border-color: #ffd700; transform: translateY(-5px); }
+        .mafia-banner { grid-column: 1 / -1; height: 220px; }
+        
+        .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; }
+        .game-card:hover .play-overlay { opacity: 1; }
+        .start-btn { background: #ffd700; color: #000; padding: 10px 20px; border-radius: 50px; font-weight: 900; font-size: 12px; }
 
-        .game-card {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #222;
-            height: 160px;
-            background-size: cover;
-            background-position: center;
-        }
+        .card-label { position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 8px; text-align: center; color: #ffd700; font-size: 13px; font-weight: bold; }
 
-        /* MAFIA BANNER MOBILE */
-        .mafia-banner {
-            grid-column: 1 / -1;
-            height: 180px !important;
-            background-image: url('https://i.ibb.co/Xz9tG1p/uzbet-mafia.jpg');
-        }
-
-        .card-label {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.8);
-            padding: 8px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 900;
-            color: #ffd700;
-        }
-
-        .start-btn-mobile {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #ffd700;
-            color: #000;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 900;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        /* WALLET MOBILE */
-        .wallet-bar {
-            background: #111;
-            border: 1px solid #ffd700;
-            padding: 8px 12px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-        }
+        /* HAMYON */
+        .wallet-box { position: relative; cursor: pointer; }
+        .wallet-ui { background: #111; border: 1px solid #ffd700; padding: 8px 15px; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
+        .wallet-menu { display: none; position: absolute; top: 45px; right: 0; background: #111; border: 1px solid #ffd700; border-radius: 8px; width: 150px; z-index: 200; overflow: hidden; }
+        .wallet-menu div { padding: 12px; border-bottom: 1px solid #222; font-size: 14px; }
+        .wallet-menu div:hover { background: #222; color: #ffd700; }
     </style>
 </head>
 <body>
 
+    <div class="bg-elements" id="bgLayer"></div>
+
     <header id="siteHeader">
         <div class="logo">UZBET ROYAL</div>
-        <div style="display: flex; gap: 5px;">
+        <div id="headerAuth">
             <button class="nav-btn" onclick="showForm('login')">KIRISH</button>
-            <button class="nav-btn" onclick="showForm('reg')">REG</button>
+            <button class="nav-btn" onclick="showForm('reg')" style="margin-left: 8px;">REG</button>
         </div>
     </header>
 
-    <main id="mainContainer">
+    <main id="mainBody">
         <div class="glass-card">
-            <h2 id="title" style="color:#ffd700; margin-bottom: 15px; font-size: 20px;">ROYAL CLUB</h2>
+            <h2 id="title" style="color:#ffd700; margin-bottom: 15px;">XUSH KELIBSIZ</h2>
             <div id="content">
-                <p style="color: #888; font-size: 14px;">G'alabalar maskaniga xush kelibsiz.</p>
+                <p style="color: #888;">Davom etish uchun tizimga kiring.</p>
             </div>
         </div>
     </main>
 
     <script>
         emailjs.init("Qj4dDgU6UZu9c6Vvx");
+
+        // EFFEKT
+        const icons = ['💰', '♠️', '💎', '🃏', '🪙'];
+        const bgLayer = document.getElementById('bgLayer');
+        for (let i = 0; i < 20; i++) {
+            let el = document.createElement('div');
+            el.className = 'element';
+            el.innerText = icons[Math.floor(Math.random() * icons.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDelay = Math.random() * 10 + 's';
+            bgLayer.appendChild(el);
+        }
+
         let db = JSON.parse(localStorage.getItem('users_db')) || [];
         let tempUser = {};
 
         function showForm(type) {
             const content = document.getElementById('content');
+            const title = document.getElementById('title');
             if(type === 'reg') {
+                title.innerText = "REGISTRATSIYA";
                 content.innerHTML = `<input type="email" id="remail" placeholder="Email"><button class="action-btn" onclick="showRegStep2()">KEYINGISI</button>`;
             } else {
+                title.innerText = "LOGIN";
                 content.innerHTML = `<input type="email" id="lemail" placeholder="Email"><button class="action-btn" onclick="toLoginPass()">DAVOM ETISH</button>`;
             }
         }
 
         function showRegStep2() {
-            tempUser.email = document.getElementById('remail').value;
+            let email = document.getElementById('remail').value;
+            if(!email.includes('@')) { alert("Email xato!"); return; }
+            tempUser.email = email;
             document.getElementById('content').innerHTML = `
-                <input type="text" id="uname" placeholder="Nikneym">
-                <input type="password" id="rpass" placeholder="Parol">
-                <button class="action-btn" onclick="saveReg()">SAQLASH</button>`;
+                <input type="text" id="uname" placeholder="Nikneym" oninput="checkNik(this.value)">
+                <div id="nikStatus" class="status-msg"></div>
+                <input type="password" id="rpass" placeholder="Parol (min. 8)">
+                <button class="action-btn" id="regBtn" onclick="finishReg()">RO'YXATDAN O'TISH</button>`;
         }
 
-        function saveReg() {
+        function checkNik(name) {
+            const status = document.getElementById('nikStatus');
+            const btn = document.getElementById('regBtn');
+            if(name.length < 3) { status.innerText = ""; return; }
+            const isTaken = db.some(u => u.username.toLowerCase() === name.toLowerCase());
+            if(isTaken) {
+                status.innerText = "✖ BU NIK BAND"; status.className = "status-msg red"; btn.disabled = true;
+            } else {
+                status.innerText = "✔ NIK BO'SH"; status.className = "status-msg green"; btn.disabled = false;
+            }
+        }
+
+        function finishReg() {
             tempUser.username = document.getElementById('uname').value;
             tempUser.password = document.getElementById('rpass').value;
-            db.push({...tempUser});
-            localStorage.setItem('users_db', JSON.stringify(db));
-            alert("Ro'yxatdan o'tdingiz!");
-            showForm('login');
+            if(tempUser.username.length >= 3 && tempUser.password.length >= 8) {
+                db.push({...tempUser});
+                localStorage.setItem('users_db', JSON.stringify(db));
+                alert("Muvaffaqiyatli o'tdingiz!");
+                showForm('login');
+            } else { alert("Ma'lumotlar yetarli emas!"); }
         }
 
         function toLoginPass() {
@@ -155,64 +159,44 @@
             if(user) {
                 tempUser = user;
                 document.getElementById('content').innerHTML = `<input type="password" id="lpass" placeholder="Parol"><button class="action-btn" onclick="checkLogin()">KIRISH</button>`;
-            } else { alert("Email topilmadi"); }
+            } else { alert("Email topilmadi!"); }
         }
 
         function checkLogin() {
-            let pass = document.getElementById('lpass').value;
-            if(pass === tempUser.password) {
+            if(document.getElementById('lpass').value === tempUser.password) {
                 loadLobby();
             } else { alert("Parol xato!"); }
         }
 
+        // LOBBY (KIRGANDAN KEYIN)
         function loadLobby() {
             document.getElementById('siteHeader').style.display = 'none';
             document.body.innerHTML = `
-                <div style="padding: 15px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <span style="color: #ffd700; font-weight: 900;">UZBET ROYAL</span>
-                        <div class="wallet-bar">
-                            <span style="color: #00ff88; font-weight: bold;">0.00 SO'M</span>
+                <div style="background: #050505; min-height: 100vh; padding-bottom: 50px;">
+                    <div style="padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222;">
+                        <span class="logo">UZBET ROYAL</span>
+                        <div class="wallet-box" onclick="toggleWallet()">
+                            <div class="wallet-ui">
+                                <img src="https://cdn-icons-png.flaticon.com/512/482/482529.png" style="width: 18px; filter: invert(1);">
+                                <span id="balDisplay" style="color: #00ff88; font-weight: bold;">0.00 SO'M</span>
+                            </div>
+                            <div id="wMenu" class="wallet-menu">
+                                <div onclick="setAcc('real')">REAL: 0.00</div>
+                                <div onclick="setAcc('demo')" style="color: #00ff88;">DEMO: 10,000</div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="game-grid">
-                        <!-- MAFIA BANNER -->
-                        <div class="game-card mafia-banner">
-                            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4);"></div>
-                            <div style="position: relative; padding: 20px;">
-                                <h3 style="color: #ffd700; font-size: 24px;">UZBET MAFIA</h3>
+                        <div class="game-card mafia-banner" style="background-image: url('https://i.ibb.co/Xz9tG1p/uzbet-mafia.jpg');">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.8), transparent);"></div>
+                            <div style="position: relative; padding: 30px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                                <h2 style="color:#ffd700; font-size: 30px;">UZBET MAFIA</h2>
+                                <p style="font-size: 12px; letter-spacing: 2px;">ELITA O'YINCHILAR KLUBI</p>
                             </div>
-                            <div class="start-btn-mobile">BOSHLASH</div>
+                            <div class="play-overlay"><div class="start-btn">BOSHLASH</div></div>
                         </div>
 
-                        <!-- KARTA -->
-                        <div class="game-card" style="background-image: url('https://images.unsplash.com/photo-1596838132731-dd93c8522756?q=80&w=500');">
-                            <div class="card-label">KARTA O'YINLARI</div>
-                            <div class="start-btn-mobile">BOSHLASH</div>
-                        </div>
-
-                        <!-- FUTBOL -->
-                        <div class="game-card" style="background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=500');">
-                            <div class="card-label">FUTBOL BET</div>
-                            <div class="start-btn-mobile">BOSHLASH</div>
-                        </div>
-
-                        <!-- AVIATOR -->
-                        <div class="game-card" style="background-image: url('https://wallpapers.com/images/hd/aviator-plane-background-1920-x-1080-60m3v1h1b9r1x1u1.jpg');">
-                            <div class="card-label">AVIATOR</div>
-                            <div class="start-btn-mobile">BOSHLASH</div>
-                        </div>
-
-                        <!-- SLOTS -->
-                        <div class="game-card" style="background-image: url('https://img.freepik.com/free-photo/casino-slot-machine-lucky-seven_102583-3665.jpg');">
-                            <div class="card-label">SLOTS</div>
-                            <div class="start-btn-mobile">BOSHLASH</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    </script>
-</body>
-    </html>
+                        <div class="game-card" style="background-image: url('https://images.unsplash.com/photo-1596838132731-dd93c8522756?w=500');">
+                            <div class="card-label">KARTA
+        
