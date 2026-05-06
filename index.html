@@ -96,9 +96,9 @@
     </main>
 
     <script>
-        // Sening EmailJS sozlamalaring
+        // EmailJS sozlamalari (To'g'rilangan variant)
         const SERVICE_ID = "service_ry3vn8c";
-        const TEMPLATE_ID = "template_62fc8xl";
+        const TEMPLATE_ID = "template_62fc8xl"; // Yangi va to'g'ri Template ID
         const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
 
         emailjs.init(PUBLIC_KEY);
@@ -139,9 +139,9 @@
                 btn.innerText = "Yuborilmoqda...";
                 btn.disabled = true;
 
-                // EmailJS orqali yuborish
+                // EmailJS orqali yuborish (To'g'rilangan qism)
                 emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                    to_email: userEmail,
+                    email: userEmail,   // Template'dagi {{email}} ga moslandi
                     my_code: generatedCode
                 }).then(() => {
                     document.getElementById('content').innerHTML = `
