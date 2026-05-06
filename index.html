@@ -6,14 +6,13 @@
     <title>UZBET - Professional</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+        /* Avvalgi stillar saqlanib qolgan */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             height: 100vh;
             background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 50%, #00d2ff 100%);
             font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            color: white;
+            display: flex; flex-direction: column; color: white;
         }
         header { padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; }
@@ -29,20 +28,22 @@
             padding: 40px; border-radius: 25px; width: 90%;
             max-width: 400px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; color: #333; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; color: #333; outline: none; }
         .action-btn {
             width: 100%; padding: 12px; background: #00d2ff; color: white;
             border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px;
         }
+        /* Yangi status stillari */
+        .status-msg { font-size: 12px; text-align: left; margin-top: -5px; margin-bottom: 5px; font-weight: bold; }
+        .red { color: #ff4d4d; }
+        .green { color: #00ff88; }
         .back-link { display: block; margin-bottom: 15px; color: #ddd; cursor: pointer; text-align: left; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <img src="https://flagcdn.com/w40/uz.png" class="flag"> UZBET
-        </div>
+        <div class="logo"><img src="https://flagcdn.com/w40/uz.png" class="flag"> UZBET</div>
         <div>
             <button class="nav-btn" onclick="showForm('login')">Kirish</button>
             <button class="nav-btn" onclick="showForm('reg')">Ro'yxatdan o'tish</button>
@@ -52,9 +53,7 @@
     <main>
         <div class="glass-card">
             <h2 id="title">Xush kelibsiz</h2>
-            <div id="content">
-                <p style="margin-top: 20px;">Iltimos, yuqoridagi tugmalardan birini tanlang.</p>
-            </div>
+            <div id="content"><p style="margin-top: 20px;">Iltimos, yuqoridagi tugmalardan birini tanlang.</p></div>
         </div>
     </main>
 
@@ -62,26 +61,22 @@
         const SERVICE_ID = "service_ry3vn8c";
         const TEMPLATE_ID = "template_62fc8xl"; 
         const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
-
         emailjs.init(PUBLIC_KEY);
 
-        // Ma'lumotlarni brauzer xotirasidan olish
-        let userEmail = localStorage.getItem('userEmail') || "";
-        let userPass = localStorage.getItem('userPass') || "";
-        let generatedCode = "";
+        // Ma'lumotlar bazasini simulyatsiya qilish (Haqiqiy loyihada server bo'ladi)
+        // Hozircha barcha foydalanuvchilarni bitta massivda saqlab turamiz
+        let db = JSON.parse(localStorage.getItem('users_db')) || [];
+        let currentUser = null;
 
         function showForm(type) {
             const content = document.getElementById('content');
             const title = document.getElementById('title');
 
             if(type === 'reg') {
-                // Agar allaqachon ro'yxatdan o'tgan bo'lsa
-                if(userEmail !== "") {
-                    alert("Siz allaqachon ro'yxatdan o'tgansiz! Iltimos, Kirish tugmasini bosing.");
-                    return;
-                }
                 title.innerText = "Ro'yxatdan o'tish";
                 content.innerHTML = `
+                    <input type="text" id="uname" placeholder="Ismingiz (Username)" oninput="checkUsername(this.value)">
+                    <div id="uStatus" class="status-msg"></div>
                     <input type="email" id="remail" placeholder="Emailingiz">
                     <input type="password" id="rpass" placeholder="Parol (min 8 ta)">
                     <button class="action-btn" id="sendBtn" onclick="toCode()">Kod yuborish</button>
@@ -95,15 +90,37 @@
             }
         }
 
-        function toCode() {
-            let emailInput = document.getElementById('remail').value;
-            let passInput = document.getElementById('rpass').value;
+        // Username bandligini tekshirish
+        function checkUsername(name) {
+            const status = document.getElementById('uStatus');
+            if(name.length < 3) {
+                status.innerText = "";
+                return;
+            }
 
-            if(emailInput.includes('@') && passInput.length >= 8) {
-                // Vaqtinchalik saqlash (tasdiqlangandan keyin xotiraga yozamiz)
-                tempEmail = emailInput;
-                tempPass = passInput;
-                
+            const isTaken = db.some(user => user.username.toLowerCase() === name.toLowerCase());
+            
+            if(isTaken) {
+                status.innerText = "✖ Bu nom band!";
+                status.className = "status-msg red";
+                document.getElementById('sendBtn').disabled = true;
+            } else {
+                status.innerText = "✔ Bu nom bo'sh (yashil pichka)";
+                status.className = "status-msg green";
+                document.getElementById('sendBtn').disabled = false;
+            }
+        }
+
+        let tempUser = {};
+        let generatedCode = "";
+
+        function toCode() {
+            let name = document.getElementById('uname').value;
+            let email = document.getElementById('remail').value;
+            let pass = document.getElementById('rpass').value;
+
+            if(name.length >= 3 && email.includes('@') && pass.length >= 8) {
+                tempUser = { username: name, email: email, password: pass };
                 generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
                 
                 const btn = document.getElementById('sendBtn');
@@ -111,48 +128,35 @@
                 btn.disabled = true;
 
                 emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-                    email: tempEmail,
+                    email: tempUser.email,
                     my_code: generatedCode
                 }).then(() => {
                     document.getElementById('content').innerHTML = `
-                        <span class="back-link" onclick="showForm('reg')">⬅ Orqaga</span>
                         <p>Emailga 5 xonali kod yuborildi.</p>
                         <input type="text" id="codeInput" placeholder="00000">
                         <button class="action-btn" onclick="verifyReg()">Tasdiqlash</button>
                     `;
-                }).catch((err) => {
-                    alert("Xatolik!");
-                    btn.innerText = "Qayta urinish";
-                    btn.disabled = false;
-                });
-            } else { alert("Email xato yoki parol 8 tadan kam!"); }
+                }).catch(() => { alert("Xatolik!"); btn.disabled = false; });
+            } else { alert("Ma'lumotlar to'liq emas yoki xato!"); }
         }
-
-        let tempEmail = "";
-        let tempPass = "";
 
         function verifyReg() {
             const enteredCode = document.getElementById('codeInput').value;
             if(enteredCode === generatedCode) {
-                // MA'LUMOTLARNI BRAUZER XOTIRASIGA SAQLASH
-                userEmail = tempEmail;
-                userPass = tempPass;
-                localStorage.setItem('userEmail', userEmail);
-                localStorage.setItem('userPass', userPass);
-
-                alert("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
-                document.getElementById('content').innerHTML = `
-                    <h2 style="color: #00ffcc;">Tabriklaymiz!</h2>
-                    <p>Endi siz tizimdan foydalanishingiz mumkin.</p>
-                `;
-            } else { alert("Kod noto'g'ri!"); }
+                db.push(tempUser);
+                localStorage.setItem('users_db', JSON.stringify(db));
+                alert("Tabriklaymiz, ro'yxatdan o'tdingiz!");
+                showForm('login');
+            } else { alert("Kod xato!"); }
         }
 
         function toLoginPass() {
             let email = document.getElementById('lemail').value;
-            if(email === userEmail && email !== "") {
+            let user = db.find(u => u.email === email);
+
+            if(user) {
+                currentUser = user;
                 document.getElementById('content').innerHTML = `
-                    <span class="back-link" onclick="showForm('login')">⬅ Orqaga</span>
                     <input type="password" id="lpass" placeholder="Parolingizni kiriting">
                     <button class="action-btn" onclick="checkLogin()">Kirish</button>
                 `;
@@ -160,11 +164,17 @@
         }
 
         function checkLogin() {
-            let enteredPass = document.getElementById('lpass').value;
-            if(enteredPass === userPass) {
-                alert("Xush kelibsiz!");
-                document.getElementById('content').innerHTML = `<h2 style="color: #00ffcc;">Xush kelibsiz!</h2><p>Profilingizga kirdingiz.</p>`;
-            } else { alert("Parol noto'g'ri!"); }
+            let pass = document.getElementById('lpass').value;
+            if(pass === currentUser.password) {
+                // KIRGANDAN KEYIN OCHILADIGAN YANGI OYNA
+                document.body.innerHTML = `
+                    <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column;">
+                        <h1>Xush kelibsiz, ${currentUser.username}!</h1>
+                        <p>Siz yangi oynaga muvaffaqiyatli kirdingiz.</p>
+                        <button onclick="location.reload()" style="margin-top:20px; padding:10px;">Chiqish</button>
+                    </div>
+                `;
+            } else { alert("Parol xato!"); }
         }
     </script>
 </body>
