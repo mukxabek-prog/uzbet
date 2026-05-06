@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UZBET - Elite Casino</title>
+    <title>UZBET ROYAL - Professional Edition</title>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+        /* UMUMIY DIZAYN */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
@@ -19,7 +20,7 @@
             position: relative;
         }
 
-        /* Animatsiyali fon elementlari (Tangalar, Kartalar, To'plar) */
+        /* FONDA UCHIB YURUVCHI TANGALAR VA KARTALAR */
         .bg-elements {
             position: absolute;
             width: 100%;
@@ -31,38 +32,34 @@
         .element {
             position: absolute;
             font-size: 30px;
-            opacity: 0.6;
-            animation: float 15s infinite linear;
+            opacity: 0.5;
+            animation: float 12s infinite linear;
         }
 
         @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
         }
 
+        /* HEADER */
         header {
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             border-bottom: 2px solid #ffd700;
             z-index: 10;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 30px;
+            font-size: 28px;
             font-weight: 900;
             color: #ffd700;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
         }
-
-        .flag { width: 35px; border-radius: 4px; }
 
         .nav-btn {
             background: linear-gradient(180deg, #ffd700, #daa520);
@@ -72,97 +69,91 @@
             border: none;
             cursor: pointer;
             font-weight: bold;
-            text-transform: uppercase;
             transition: 0.3s;
         }
 
-        .nav-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px #ffd700; }
-
+        /* CARD DIZAYN */
         main { flex: 1; display: flex; justify-content: center; align-items: center; z-index: 10; }
 
         .glass-card {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(25px);
-            padding: 45px;
-            border-radius: 30px;
-            width: 95%;
-            max-width: 440px;
+            background: rgba(15, 15, 15, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
             text-align: center;
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            box-shadow: 0 0 60px rgba(0,0,0,0.8);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
         input {
             width: 100%;
             padding: 15px;
-            margin: 12px 0;
-            border-radius: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            font-size: 16px;
             outline: none;
         }
 
-        input:focus { border-color: #ffd700; background: rgba(255, 255, 255, 0.12); }
-
         .action-btn {
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             background: linear-gradient(90deg, #ffd700, #daa520);
             color: #000;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             font-size: 18px;
             margin-top: 15px;
         }
 
-        .status-msg { font-size: 13px; text-align: left; margin-bottom: 10px; font-weight: bold; }
+        .back-link { display: block; margin-bottom: 15px; color: #ffd700; cursor: pointer; text-align: left; font-size: 14px; }
+        .status-msg { font-size: 12px; text-align: left; margin-bottom: 5px; font-weight: bold; }
         .red { color: #ff4d4d; }
         .green { color: #00ff88; }
-        .back-link { display: block; margin-bottom: 20px; color: #ffd700; cursor: pointer; text-align: left; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- Orqa fondagi elementlar -->
     <div class="bg-elements" id="bgLayer"></div>
 
     <header>
-        <div class="logo"><img src="https://flagcdn.com/w40/uz.png" class="flag"> UZBET</div>
+        <div class="logo">UZBET ROYAL</div>
         <div>
             <button class="nav-btn" onclick="showForm('login')">Kirish</button>
-            <button class="nav-btn" onclick="showForm('reg')">Registratsiya</button>
+            <button class="nav-btn" onclick="showForm('reg')" style="margin-left: 10px;">Ro'yxatdan o'tish</button>
         </div>
     </header>
 
-    <main>
+    <main id="mainBody">
         <div class="glass-card">
-            <h2 id="title" style="color:#ffd700; margin-bottom: 15px;">ROYAL CASINO</h2>
+            <h2 id="title" style="color:#ffd700; margin-bottom: 20px;">XUSH KELIBSIZ</h2>
             <div id="content">
-                <p style="color: #ccc;">Professional o'yinlar olamiga xush kelibsiz!</p>
+                <p>Davom etish uchun tizimga kiring.</p>
             </div>
         </div>
     </main>
 
     <script>
+        // EmailJS Ma'lumotlari
         const SERVICE_ID = "service_ry3vn8c";
         const TEMPLATE_ID = "template_62fc8xl"; 
         const PUBLIC_KEY = "Qj4dDgU6UZu9c6Vvx";
         emailjs.init(PUBLIC_KEY);
 
-        // Fon elementlarini yaratish
-        const icons = ['💰', '🪙', '🃏', '♠️', '♥️', '⚽', '💎'];
+        // Orqa fon animatsiyasi
+        const icons = ['💰', '🪙', '🃏', '♠️', '⚽', '💎', '🎰'];
         const bgLayer = document.getElementById('bgLayer');
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 35; i++) {
             let el = document.createElement('div');
             el.className = 'element';
             el.innerText = icons[Math.floor(Math.random() * icons.length)];
             el.style.left = Math.random() * 100 + 'vw';
             el.style.animationDelay = Math.random() * 15 + 's';
-            el.style.fontSize = (Math.random() * 20 + 20) + 'px';
             bgLayer.appendChild(el);
         }
 
@@ -170,34 +161,36 @@
         let tempUser = {};
         let generatedCode = "";
 
+        // Registratsiya boshlanishi: Faqat Email so'rash
         function showForm(type) {
             const content = document.getElementById('content');
             const title = document.getElementById('title');
             if(type === 'reg') {
                 title.innerText = "REGISTRATSIYA";
                 content.innerHTML = `
-                    <input type="email" id="remail" placeholder="Email manzilingiz">
+                    <input type="email" id="remail" placeholder="Emailingizni kiriting">
                     <button class="action-btn" onclick="showRegStep2()">Keyingisi</button>
                 `;
             } else {
                 title.innerText = "LOGIN";
                 content.innerHTML = `
-                    <input type="email" id="lemail" placeholder="Emailingiz">
+                    <input type="email" id="lemail" placeholder="Email manzilingiz">
                     <button class="action-btn" onclick="toLoginPass()">Davom etish</button>
                 `;
             }
         }
 
+        // 2-qadam: Ism va Parol
         function showRegStep2() {
             let email = document.getElementById('remail').value;
-            if(!email.includes('@')) { alert("Emailni to'g'ri kiriting!"); return; }
+            if(!email.includes('@')) { alert("Email xato!"); return; }
             tempUser.email = email;
             document.getElementById('content').innerHTML = `
                 <span class="back-link" onclick="showForm('reg')">⬅ ORQAGA</span>
                 <input type="text" id="uname" placeholder="Nikneym (Ism)" oninput="checkUsername(this.value)">
                 <div id="uStatus" class="status-msg"></div>
-                <input type="password" id="rpass" placeholder="Parol (min 8 belgi)">
-                <button class="action-btn" id="sendBtn" onclick="toCode()">TASDIQLASH KODINI OLISH</button>
+                <input type="password" id="rpass" placeholder="Parol (kamida 8 ta)">
+                <button class="action-btn" id="sendBtn" onclick="sendRegCode()">KODNI OLISH</button>
             `;
         }
 
@@ -205,46 +198,38 @@
             const status = document.getElementById('uStatus');
             if(name.length < 3) { status.innerText = ""; return; }
             const isTaken = db.some(u => u.username.toLowerCase() === name.toLowerCase());
-            if(isTaken) {
-                status.innerText = "✖ BU NOM BAND!";
-                status.className = "status-msg red";
-                document.getElementById('sendBtn').disabled = true;
-            } else {
-                status.innerText = "✔ NOM BO'SH";
-                status.className = "status-msg green";
-                document.getElementById('sendBtn').disabled = false;
-            }
+            status.innerText = isTaken ? "✖ NOM BAND" : "✔ NOM BO'SH";
+            status.className = "status-msg " + (isTaken ? "red" : "green");
+            document.getElementById('sendBtn').disabled = isTaken;
         }
 
-        function toCode() {
+        function sendRegCode() {
             let name = document.getElementById('uname').value;
             let pass = document.getElementById('rpass').value;
             if(name.length >= 3 && pass.length >= 8) {
                 tempUser.username = name;
                 tempUser.password = pass;
                 generatedCode = Math.floor(10000 + Math.random() * 90000).toString();
-                const btn = document.getElementById('sendBtn');
-                btn.innerText = "YUBORILMOQDA...";
-                btn.disabled = true;
+                
+                document.getElementById('sendBtn').innerText = "YUBORILMOQDA...";
                 emailjs.send(SERVICE_ID, TEMPLATE_ID, { email: tempUser.email, my_code: generatedCode })
-                    .then(() => {
-                        document.getElementById('content').innerHTML = `
-                            <p>Kodni kiriting:</p>
-                            <input type="text" id="codeInput" placeholder="00000">
-                            <button class="action-btn" onclick="verifyReg()">TASDIQLASH</button>
-                        `;
-                    }).catch(() => { alert("Xato!"); btn.disabled = false; });
-            } else { alert("Ma'lumotlar xato!"); }
+                .then(() => {
+                    document.getElementById('content').innerHTML = `
+                        <p>Kodni kiriting:</p>
+                        <input type="text" id="vCode" placeholder="5 xonali kod">
+                        <button class="action-btn" onclick="finishReg()">TASDIQLASH</button>
+                    `;
+                }).catch(() => { alert("Xato!"); document.getElementById('sendBtn').innerText = "KODNI OLISH"; });
+            } else { alert("Ism yoki parol juda qisqa!"); }
         }
 
-        function verifyReg() {
-            const code = document.getElementById('codeInput').value;
-            if(code === generatedCode) {
+        function finishReg() {
+            if(document.getElementById('vCode').value === generatedCode) {
                 db.push(tempUser);
                 localStorage.setItem('users_db', JSON.stringify(db));
-                alert("Muvaffaqiyatli o'tdingiz!");
+                alert("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
                 showForm('login');
-            } else { alert("Kod xato!"); }
+            } else { alert("Kod noto'g'ri!"); }
         }
 
         function toLoginPass() {
@@ -256,19 +241,63 @@
                     <input type="password" id="lpass" placeholder="Parolingiz">
                     <button class="action-btn" onclick="checkLogin()">KIRISH</button>
                 `;
-            } else { alert("Topilmadi!"); }
+            } else { alert("Email topilmadi!"); }
         }
 
+        // --- ASOSIY LOBBY QISMI (KIRGANDAN KEYIN) ---
         function checkLogin() {
             let pass = document.getElementById('lpass').value;
             if(pass === tempUser.password) {
                 document.body.innerHTML = `
-                    <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; background: radial-gradient(circle, #2a0845, #000);">
-                        <h1 style="color:#ffd700; text-shadow: 0 0 20px #ffd700;">SALOM, ${tempUser.username.toUpperCase()}!</h1>
-                        <p style="color:#fff; margin-top:10px;">Xush kelibsiz!</p>
-                        <button onclick="location.reload()" style="margin-top:30px; padding:12px 40px; background:#ffd700; border:none; cursor:pointer; font-weight:bold; border-radius:10px;">CHIQISH</button>
+                <div style="background: radial-gradient(circle at top, #1e0b36, #000); min-height: 100vh; padding: 20px; font-family: Arial; color: white;">
+                    <!-- HEADER -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                        <h1 style="color: #ffd700; text-shadow: 0 0 10px #ffd700;">UZBET ROYAL</h1>
+                        <div style="display: flex; gap: 15px; align-items: center;">
+                            <div style="background: rgba(255, 255, 255, 0.1); border: 2px solid #ffd700; padding: 8px 20px; border-radius: 50px; display: flex; align-items: center; gap: 10px;">
+                                <span>👛</span><span style="color: #00ff88; font-weight: bold; font-size: 18px;">0.00 SO'M</span>
+                            </div>
+                            <div style="width: 45px; height: 45px; background: #ffd700; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 20px; cursor: pointer; border: 2px solid #fff;">👤</div>
+                        </div>
                     </div>
-                `;
+
+                    <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px;">
+                        
+                        <!-- 3. MAFIYA (Markazda yoyilgan) -->
+                        <div style="width: 100%; height: 220px; background: linear-gradient(to right, rgba(0,0,0,0.8), transparent), url('https://img.freepik.com/free-vector/mafia-background-design_23-2148473454.jpg') center/cover; border-radius: 20px; border: 2px solid #ffd700; display: flex; align-items: center; padding-left: 40px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div>
+                                <h2 style="font-size: 35px; margin: 0; color: #fff;">MAFIYA</h2>
+                                <p style="color: #00ff88; letter-spacing: 2px;">NIGHT CITY WAR</p>
+                                <button style="margin-top: 15px; padding: 10px 30px; background: #ffd700; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">O'YNASH</button>
+                            </div>
+                        </div>
+
+                        <!-- QOLGAN 4 TA O'YIN (GRID) -->
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                            
+                            <!-- 1. Karta -->
+                            <div style="height: 160px; border-radius: 15px; border: 1px solid rgba(255,215,0,0.4); background: url('https://img.freepik.com/free-photo/poker-cards-chips_23-2148194451.jpg') center/cover; position: relative; cursor: pointer;">
+                                <div style="position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); text-align: center; padding: 8px; font-weight: bold; color: #ffd700;">KARTA O'YINLARI</div>
+                            </div>
+
+                            <!-- 2. Futbol -->
+                            <div style="height: 160px; border-radius: 15px; border: 1px solid rgba(255,215,0,0.4); background: url('https://img.freepik.com/free-photo/soccer-ball-stadium_121102-14.jpg') center/cover; position: relative; cursor: pointer;">
+                                <div style="position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); text-align: center; padding: 8px; font-weight: bold; color: #ffd700;">FUTBOL BETTING</div>
+                            </div>
+
+                            <!-- 4. Crash -->
+                            <div style="height: 160px; border-radius: 15px; border: 1px solid rgba(255,215,0,0.4); background: url('https://img.freepik.com/free-vector/airplane-flying-night_1308-34676.jpg') center/cover; position: relative; cursor: pointer;">
+                                <div style="position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); text-align: center; padding: 8px; font-weight: bold; color: #ffd700;">CRASH (AVIATOR)</div>
+                            </div>
+
+                            <!-- 5. Slots -->
+                            <div style="height: 160px; border-radius: 15px; border: 1px solid rgba(255,215,0,0.4); background: url('https://img.freepik.com/free-photo/casino-slot-machine-lucky-seven_102583-3665.jpg') center/cover; position: relative; cursor: pointer;">
+                                <div style="position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); text-align: center; padding: 8px; font-weight: bold; color: #ffd700;">GOLDEN SLOTS</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>`;
             } else { alert("Parol xato!"); }
         }
     </script>
